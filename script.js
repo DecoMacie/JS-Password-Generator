@@ -92,6 +92,7 @@ var upperCasedCharacters = [
 function getPasswordOptions() {
   var passLenght = parseInt(prompt("Add the length of the Password. Between 8-128",""))
   var charTypes = [["Lowercase Characters",lowerCasedCharacters], ["Uppercase Characters",upperCasedCharacters], ["Numeric Characters",numericCharacters], ["Special Characters ($@%&*, etc)",specialCharacters]];
+  var optionsArray = [];
   
   //Validate the password's length and prompts the user to input the correct criteria
   while (passLenght<8 || passLenght>128){
@@ -102,13 +103,26 @@ function getPasswordOptions() {
       passLenght = parseInt(prompt("Your password MUST have 128 characters at most\nPlease try again",""));
     }
   }
-  
-  // for (i = 0; i < charTypes.length; i++){
 
-  // }
-  var d = passLenght * 2;
-  console.log(charTypes[0][1]);
-  console.log(passLenght);
+  for (i = 0; i < charTypes.length; i++){
+    var optionConfirm = confirm("Do you want to add " + charTypes[i][0] + " to your password?"); 
+    if (optionConfirm == true){
+      optionsArray = optionsArray.concat(charTypes[i][1]);
+    }
+  }
+
+  if (optionsArray == []){
+    alert("At least one character type should be selected")
+  }
+  else {
+    return optionsArray
+    // console.log(optionsArray)
+  }
+  // var d = charTypes[0][1];
+  // var c = optionsArray.concat(d);
+  // console.log(optionsArray.concat(charTypes[3][1]));
+  // console.log(c);
+  // console.log(optionsArray)
 }
 
 // Function for getting a random element from an array
@@ -118,7 +132,8 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  getPasswordOptions()
+  // getPasswordOptions()
+  console.log(getPasswordOptions())
   
 }
 
