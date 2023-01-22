@@ -88,52 +88,65 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+var passLenght = 0;
+var charTypes = [["Lowercase Characters",lowerCasedCharacters], ["Uppercase Characters",upperCasedCharacters], ["Numeric Characters",numericCharacters], ["Special Characters ($@%&*, etc)",specialCharacters]];
+
+
 // Function to prompt user for password options
 function getPasswordOptions() {
-  var passLenght = parseInt(prompt("Add the length of the Password. Between 8-128",""))
-  var charTypes = [["Lowercase Characters",lowerCasedCharacters], ["Uppercase Characters",upperCasedCharacters], ["Numeric Characters",numericCharacters], ["Special Characters ($@%&*, etc)",specialCharacters]];
   var optionsArray = [];
   
-  //Validate the password's length and prompts the user to input the correct criteria
-  while (passLenght<8 || passLenght>128){
+  //Ask which character types 
+  for (i = 0; i < charTypes.length; i++){
+    var optionConfirm = confirm("Do you want to add " + charTypes[i][0] + " to your password?"); 
+    if (optionConfirm == true){
+      optionsArray = optionsArray.concat(charTypes[i][1]);
+      // optionsArray = optionsArray.push(charTypes[i][1]);
+    }
+  }
+
+  if (optionsArray.length === 0){
+    alert("At least one character type should be selected");
+    return
+  }
+  else {
+    return optionsArray;
+  }
+}
+
+// Function for getting a random element from an array
+function getRandom(arr) {
+  var randomPass = "";
+  for (i = 0; i < passLenght; i++){
+    randomPass = randomPass + (arr[Math.floor(Math.random() * arr.length)]);
+  }
+  return randomPass;
+}
+
+// Function to generate password with user input
+function generatePassword() {
+  passLenght = parseInt(prompt("Add the length of the Password. Between 8-128",""))
+
+    //Validate the password's length and prompts the user to input the correct criteria
+  while (passLenght<8 || passLenght>128 || isNaN(passLenght)){
     if (passLenght<8){
       passLenght = parseInt(prompt("Your password MUST have 8 or more characters\nPlease try again",""));
     }
     else if (passLenght>128){
       passLenght = parseInt(prompt("Your password MUST have 128 characters at most\nPlease try again",""));
     }
-  }
-
-  for (i = 0; i < charTypes.length; i++){
-    var optionConfirm = confirm("Do you want to add " + charTypes[i][0] + " to your password?"); 
-    if (optionConfirm == true){
-      optionsArray = optionsArray.concat(charTypes[i][1]);
+    else {
+      passLenght = parseInt(prompt("Your password lenght must be numeric\nPlease try again",""));
     }
   }
-
-  if (optionsArray == []){
-    alert("At least one character type should be selected")
+  
+  const optionsArray = getPasswordOptions();
+  if (optionsArray == null){
+    alert("ERROR");
   }
-  else {
-    return optionsArray
-    // console.log(optionsArray)
+  else{
+    return getRandom(optionsArray);
   }
-  // var d = charTypes[0][1];
-  // var c = optionsArray.concat(d);
-  // console.log(optionsArray.concat(charTypes[3][1]));
-  // console.log(c);
-  // console.log(optionsArray)
-}
-
-// Function for getting a random element from an array
-function getRandom(arr) {
-
-}
-
-// Function to generate password with user input
-function generatePassword() {
-  // getPasswordOptions()
-  console.log(getPasswordOptions())
   
 }
 
